@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copa Mundial FIFA 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.29.0/dist/tabler-icons.min.css">
+  <style>
+    :root {
+      --bg-body: #060d1a;
+      --bg-box: #0d1627;
+      --bg-card: #131f35;
+      --bg-input: #0d1627;
+      --border: #1e3050;
+      --border-md: #2a4570;
+      --text-1: #e2e8f0;
+      --text-2: #94a3b8;
+      --text-3: #4f6681;
+      --accent: #3b82f6;
+      --accent-bg: rgba(59,130,246,0.12);
+      --green: #22c55e;
+      --green-bg: rgba(34,197,94,0.12);
+      --r-md: 7px;
+      --r-lg: 12px;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      /* compat aliases for existing CSS vars used inside JS templates */
+      --color-background-primary: #131f35;
+      --color-background-secondary: #0d1627;
+      --color-text-primary: #e2e8f0;
+      --color-text-secondary: #94a3b8;
+      --color-text-tertiary: #4f6681;
+      --color-border-tertiary: #1e3050;
+      --color-border-secondary: #2a4570;
+      --border-radius-md: 7px;
+      --border-radius-lg: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-body);
+      min-height: 100vh;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+    /* ── Page box ── */
+    .page-box {
+      max-width: 980px;
+      margin: 0 auto;
+      background: var(--bg-box);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      box-shadow: 0 0 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.04), inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .wrap { padding: 0; }
+
+    /* ── Header ── */
+    .hdr { display:flex; align-items:center; gap:10px; margin-bottom:1.25rem; padding-bottom:1rem; border-bottom:1px solid var(--border); }
+    .hdr-icon {
+      width:42px; height:42px;
+      background: linear-gradient(145deg, #1e3a8a, #0d1627);
+      border-radius: 10px;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 0 0 1px rgba(59,130,246,0.25), 0 2px 8px rgba(0,0,0,0.4);
+      flex-shrink: 0;
+    }
+    .hdr h1 { font-size:17px; font-weight:600; color:var(--text-1); letter-spacing:-0.01em; }
+    .hdr-badges { margin-left:auto; display:flex; gap:5px; }
+    .bx { font-size:10px; padding:3px 10px; border-radius:20px; font-weight:500; white-space:nowrap; }
+    .bx-b { background:rgba(30,58,138,0.3); color:#93c5fd; border:1px solid rgba(59,130,246,0.25); }
+    .bx-g { background:rgba(20,83,45,0.3); color:#86efac; border:1px solid rgba(34,197,94,0.25); }
+
+    /* ── Stats ── */
+    .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:1.25rem; }
+    .sc {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 12px 8px;
+      text-align: center;
+    }
+    .sc-n { font-size:24px; font-weight:700; color:var(--text-1); line-height:1; }
+    .sc-l { font-size:10px; color:var(--text-3); margin-top:5px; text-transform:uppercase; letter-spacing:0.06em; }
+
+    /* ── Tabs ── */
+    .tabs { display:flex; gap:2px; margin-bottom:1.25rem; border-bottom:1px solid var(--border); }
+    .tab {
+      padding:8px 18px; font-size:12px; cursor:pointer;
+      color:var(--text-2); border:none; background:none;
+      border-bottom:2px solid transparent; margin-bottom:-1px;
+      transition:all 0.15s; font-weight:400; letter-spacing:0.01em;
+    }
+    .tab.on { color:#60a5fa; border-bottom-color:var(--accent); font-weight:600; }
+    .tab:hover:not(.on) { color:var(--text-1); }
+
+    /* ── Filters ── */
+    .filt {
+      background: var(--bg-card);
+      border-radius: var(--r-lg);
+      padding: 12px 14px;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--border);
+    }
+    .frow { display:flex; align-items:flex-start; gap:8px; margin-bottom:8px; }
+    .frow:last-child { margin-bottom:0; }
+    .flbl { font-size:9px; color:var(--text-3); font-weight:700; min-width:44px; padding-top:5px; text-transform:uppercase; letter-spacing:0.08em; }
+    .pills { display:flex; flex-wrap:wrap; gap:4px; flex:1; }
+    .pill {
+      padding:3px 10px; border-radius:20px;
+      border:1px solid var(--border); font-size:11px;
+      cursor:pointer; background:transparent; color:var(--text-2);
+      transition:all 0.12s; white-space:nowrap; line-height:1.5;
+    }
+    .pill:hover { border-color:var(--border-md); color:var(--text-1); }
+    .pill.on { background:rgba(30,58,138,0.3); color:#93c5fd; border-color:rgba(59,130,246,0.4); }
+    .pill.gon { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .msep { font-size:10px; color:var(--text-3); padding:4px 2px; line-height:1.4; }
+    .factions { display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-top:6px; }
+    .clr { font-size:11px; color:var(--text-3); cursor:pointer; background:none; border:none; padding:2px 4px; transition:color 0.1s; }
+    .clr:hover { color:var(--text-1); }
+    .sim-legend { font-size:10px; color:var(--text-3); display:flex; align-items:center; gap:4px; }
+    .sdot { width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block; flex-shrink:0; }
+
+    /* ── Results info ── */
+    .res-info { font-size:11px; color:var(--text-3); margin-bottom:12px; }
+
+    /* ── Day header ── */
+    .day-hdr { display:flex; align-items:center; gap:10px; margin:18px 0 10px; }
+    .day-hdr-line { flex:1; height:1px; background:var(--border); }
+    .day-hdr-text { font-size:10px; font-weight:700; color:var(--text-2); white-space:nowrap; text-transform:uppercase; letter-spacing:0.1em; }
+    .day-cnt {
+      font-size:10px; color:var(--text-3);
+      background:var(--bg-card); border:1px solid var(--border);
+      padding:1px 8px; border-radius:20px;
+    }
+
+    /* ── Match grid ── */
+    .matches { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; }
+
+    /* ── Match card ── */
+    .mc {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 12px 14px;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+    }
+    .mc:hover { border-color:var(--border-md); box-shadow:0 4px 16px rgba(0,0,0,0.35); transform:translateY(-1px); }
+    .mc.done { border-left:3px solid var(--green); }
+    .mc-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .mc-hora {
+      font-size:10px; font-weight:600;
+      color:#6ee7b7;
+      background:rgba(6,78,59,0.25);
+      border:1px solid rgba(16,185,129,0.2);
+      padding:2px 9px; border-radius:20px;
+      display:flex; align-items:center; gap:4px;
+    }
+    .mc-gtag { font-size:10px; font-weight:500; padding:2px 8px; border-radius:6px; }
+
+    .mc-body { display:flex; align-items:center; gap:6px; padding:4px 0; }
+    .mc-team { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; text-align:center; }
+    .mc-flag { font-size:26px; line-height:1; }
+    .mc-tname { font-size:11px; font-weight:500; color:var(--text-1); line-height:1.2; }
+    .mc-score { display:flex; align-items:center; gap:4px; flex-shrink:0; }
+    .sinp {
+      width:42px; height:42px; text-align:center;
+      border:1px solid var(--border-md);
+      border-radius:8px; font-size:18px; font-weight:700;
+      background:var(--bg-input); color:var(--text-1);
+      transition:border-color 0.1s, box-shadow 0.1s;
+      -moz-appearance:textfield;
+      appearance:textfield;
+    }
+    .sinp::-webkit-inner-spin-button, .sinp::-webkit-outer-spin-button { -webkit-appearance:none; }
+    .sinp:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 2px rgba(59,130,246,0.2); }
+    .vs { font-size:13px; color:var(--text-3); font-weight:600; }
+
+    .mc-bot {
+      display:flex; justify-content:space-between; align-items:center;
+      margin-top:10px; padding-top:9px; border-top:1px solid var(--border);
+    }
+    .mc-sede { font-size:10px; color:var(--text-3); display:flex; align-items:center; gap:3px; }
+    .savebtn {
+      font-size:10px; padding:4px 12px;
+      border:1px solid var(--border-md); border-radius:6px;
+      cursor:pointer; background:transparent; color:var(--text-2);
+      transition:all 0.15s; font-weight:500;
+    }
+    .savebtn:hover { background:rgba(30,58,138,0.3); color:#93c5fd; border-color:rgba(59,130,246,0.4); }
+    .savebtn.ok { background:rgba(20,83,45,0.25); color:#86efac; border-color:rgba(34,197,94,0.35); }
+
+    /* ── Empty ── */
+    .empty { text-align:center; padding:4rem 1rem; color:var(--text-3); }
+    .empty i { font-size:44px; display:block; margin-bottom:12px; opacity:0.25; }
+
+    /* ── Standings ── */
+    .tbl-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; }
+    .tbl-card { border:1px solid var(--border); border-radius:var(--r-lg); overflow:hidden; background:var(--bg-card); }
+    .tbl-hdr { padding:9px 12px; }
+    .tbl-hdr span { font-size:12px; font-weight:700; color:#fff; letter-spacing:0.04em; text-transform:uppercase; }
+    .tbl-t { width:100%; border-collapse:collapse; font-size:11px; table-layout:fixed; }
+    .tbl-t th {
+      padding:5px 8px; text-align:left;
+      color:var(--text-3); font-weight:600;
+      border-bottom:1px solid var(--border);
+      font-size:9px; text-transform:uppercase; letter-spacing:0.06em;
+    }
+    .tbl-t td {
+      padding:6px 8px; color:var(--text-1);
+      border-bottom:1px solid var(--border);
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    }
+    .tbl-t tr:last-child td { border-bottom:none; }
+    .rq1 td { background:rgba(59,130,246,0.14); }
+    .rq2 td { background:rgba(59,130,246,0.07); }
+    .rq3 td { background:rgba(34,197,94,0.07); }
+    .tbl-note { font-size:10px; color:var(--text-3); text-align:center; padding:12px 8px; }
+
+    /* ── Knockout ── */
+    .ko-rnd {
+      font-size:10px; font-weight:700; color:var(--text-2);
+      letter-spacing:0.1em; text-transform:uppercase;
+      margin:20px 0 8px; padding-bottom:6px;
+      border-bottom:1px solid var(--border);
+    }
+    .ko-matches { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; }
+  </style>
+</head>
+<body>
+
+<div class="page-box">
+
+<h2 class="sr-only">Fixture Mundial 2026 - filtro por fecha y grupo - horario Bolivia</h2>
+
+<div class="wrap">
+
+<div class="hdr">
+  <div class="hdr-icon"><i class="ti ti-trophy" style="font-size:20px;color:#93c5fd" aria-hidden="true"></i></div>
+  <h1>Copa Mundial FIFA 2026</h1>
+  <div class="hdr-badges">
+    <span class="bx bx-b">104 partidos</span>
+    <span class="bx bx-g">🕐 Hora Bolivia</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="sc"><div class="sc-n" id="sJ">0</div><div class="sc-l">Jugados</div></div>
+  <div class="sc"><div class="sc-n" id="sG">0</div><div class="sc-l">Goles</div></div>
+  <div class="sc"><div class="sc-n">48</div><div class="sc-l">Selecciones</div></div>
+  <div class="sc"><div class="sc-n" id="sP">104</div><div class="sc-l">Pendientes</div></div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div id="filt"></div>
+<div id="main"></div>
+
+</div>
+</div>
+
+<script>
+const FL={México:'🇲🇽',Sudáfrica:'🇿🇦','Corea del Sur':'🇰🇷','Rep. Checa':'🇨🇿',Canadá:'🇨🇦',Bosnia:'🇧🇦','Estados Unidos':'🇺🇸',Paraguay:'🇵🇾',Qatar:'🇶🇦',Suiza:'🇨🇭',Brasil:'🇧🇷',Marruecos:'🇲🇦','Haití':'🇭🇹',Escocia:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',Australia:'🇦🇺','Turquía':'🇹🇷',Alemania:'🇩🇪',Curazao:'🇨🇼','Países Bajos':'🇳🇱','Japón':'🇯🇵','Costa de Marfil':'🇨🇮',Ecuador:'🇪🇨',Suecia:'🇸🇪','Túnez':'🇹🇳','España':'🇪🇸','Cabo Verde':'🇨🇻','Bélgica':'🇧🇪',Egipto:'🇪🇬','Arabia Saudita':'🇸🇦',Uruguay:'🇺🇾','Irán':'🇮🇷','Nueva Zelanda':'🇳🇿',Francia:'🇫🇷',Senegal:'🇸🇳',Irak:'🇮🇶',Noruega:'🇳🇴',Argentina:'🇦🇷',Argelia:'🇩🇿',Austria:'🇦🇹',Jordania:'🇯🇴',Portugal:'🇵🇹','RD Congo':'🇨🇩',Inglaterra:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',Croacia:'🇭🇷',Ghana:'🇬🇭','Panamá':'🇵🇦','Uzbekistán':'🇺🇿',Colombia:'🇨🇴'};
+
+// Dark-mode friendly group colors: text bright, bg subtle
+const GC={A:'#60a5fa',B:'#fb923c',C:'#4ade80',D:'#f472b6',E:'#fb923c',F:'#34d399',G:'#a78bfa',H:'#4ade80',I:'#f87171',J:'#a8a29e',K:'#34d399',L:'#60a5fa'};
+const GB={A:'rgba(59,130,246,0.15)',B:'rgba(251,146,60,0.12)',C:'rgba(74,222,128,0.12)',D:'rgba(244,114,182,0.12)',E:'rgba(251,146,60,0.12)',F:'rgba(52,211,153,0.12)',G:'rgba(167,139,250,0.12)',H:'rgba(74,222,128,0.12)',I:'rgba(248,113,113,0.12)',J:'rgba(168,162,158,0.10)',K:'rgba(52,211,153,0.12)',L:'rgba(59,130,246,0.15)'};
+
+// Dark-mode tbl-hdr backgrounds (slightly different from GC text colors)
+const GHDR={A:'#1d4ed8',B:'#92400e',C:'#166534',D:'#9d174d',E:'#92400e',F:'#065f46',G:'#4c1d95',H:'#166534',I:'#991b1b',J:'#57534e',K:'#065f46',L:'#1d4ed8'};
+
+const GRPS={A:['México','Corea del Sur','Rep. Checa','Sudáfrica'],B:['Canadá','Qatar','Suiza','Bosnia'],C:['Brasil','Marruecos','Haití','Escocia'],D:['Estados Unidos','Paraguay','Australia','Turquía'],E:['Alemania','Costa de Marfil','Ecuador','Curazao'],F:['Países Bajos','Japón','Suecia','Túnez'],G:['Bélgica','Egipto','Irán','Nueva Zelanda'],H:['España','Cabo Verde','Arabia Saudita','Uruguay'],I:['Francia','Senegal','Irak','Noruega'],J:['Argentina','Argelia','Austria','Jordania'],K:['Portugal','RD Congo','Uzbekistán','Colombia'],L:['Inglaterra','Croacia','Ghana','Panamá']};
+const ORD={'11 Jun':0,'12 Jun':1,'13 Jun':2,'14 Jun':3,'15 Jun':4,'16 Jun':5,'17 Jun':6,'18 Jun':7,'19 Jun':8,'20 Jun':9,'21 Jun':10,'22 Jun':11,'23 Jun':12,'24 Jun':13,'25 Jun':14,'26 Jun':15,'27 Jun':16,'28 Jun':17,'1 Jul':18,'2 Jul':19,'3 Jul':20,'4 Jul':21,'5 Jul':22,'6 Jul':23,'7 Jul':24,'8 Jul':25,'11 Jul':26,'12 Jul':27,'13 Jul':28,'14 Jul':29,'15 Jul':30,'17 Jul':31,'18 Jul':32,'19 Jul':33};
+const DIAS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const MESES={Jun:'jun',Jul:'jul'};
+const BASE=new Date(2026,5,11);
+
+const GM=[
+  {id:'A1',g:'A',f:'11 Jun',t:'15:00',h:'México',a:'Sudáfrica',s:'Cd. de México'},
+  {id:'A2',g:'A',f:'11 Jun',t:'22:00',h:'Corea del Sur',a:'Rep. Checa',s:'Guadalajara'},
+  {id:'A3',g:'A',f:'18 Jun',t:'13:00',h:'Rep. Checa',a:'Sudáfrica',s:'Atlanta'},
+  {id:'A4',g:'A',f:'18 Jun',t:'21:00',h:'México',a:'Corea del Sur',s:'Guadalajara'},
+  {id:'A5',g:'A',f:'24 Jun',t:'17:00',h:'México',a:'Rep. Checa',s:'Dallas',sim:1},
+  {id:'A6',g:'A',f:'24 Jun',t:'17:00',h:'Corea del Sur',a:'Sudáfrica',s:'Kansas City',sim:1},
+  {id:'B1',g:'B',f:'12 Jun',t:'15:00',h:'Canadá',a:'Bosnia',s:'Toronto'},
+  {id:'B2',g:'B',f:'13 Jun',t:'15:00',h:'Qatar',a:'Suiza',s:'San Francisco'},
+  {id:'B3',g:'B',f:'18 Jun',t:'15:00',h:'Suiza',a:'Bosnia',s:'Los Ángeles'},
+  {id:'B4',g:'B',f:'18 Jun',t:'18:00',h:'Canadá',a:'Qatar',s:'Vancouver'},
+  {id:'B5',g:'B',f:'24 Jun',t:'15:00',h:'Suiza',a:'Canadá',s:'Vancouver',sim:1},
+  {id:'B6',g:'B',f:'24 Jun',t:'15:00',h:'Bosnia',a:'Qatar',s:'Miami',sim:1},
+  {id:'C1',g:'C',f:'13 Jun',t:'18:00',h:'Brasil',a:'Marruecos',s:'Nueva Jersey'},
+  {id:'C2',g:'C',f:'13 Jun',t:'21:00',h:'Haití',a:'Escocia',s:'Boston'},
+  {id:'C3',g:'C',f:'19 Jun',t:'18:00',h:'Escocia',a:'Marruecos',s:'Boston'},
+  {id:'C4',g:'C',f:'19 Jun',t:'20:30',h:'Brasil',a:'Haití',s:'Philadelphia'},
+  {id:'C5',g:'C',f:'25 Jun',t:'18:00',h:'Brasil',a:'Escocia',s:'Atlanta',sim:1},
+  {id:'C6',g:'C',f:'25 Jun',t:'18:00',h:'Marruecos',a:'Haití',s:'Dallas',sim:1},
+  {id:'D1',g:'D',f:'12 Jun',t:'21:00',h:'Estados Unidos',a:'Paraguay',s:'Los Ángeles'},
+  {id:'D2',g:'D',f:'13 Jun',t:'00:00',h:'Australia',a:'Turquía',s:'Vancouver'},
+  {id:'D3',g:'D',f:'19 Jun',t:'15:00',h:'Estados Unidos',a:'Australia',s:'Seattle'},
+  {id:'D4',g:'D',f:'19 Jun',t:'23:00',h:'Turquía',a:'Paraguay',s:'San Francisco'},
+  {id:'D5',g:'D',f:'25 Jun',t:'15:00',h:'Estados Unidos',a:'Turquía',s:'Houston',sim:1},
+  {id:'D6',g:'D',f:'25 Jun',t:'15:00',h:'Paraguay',a:'Australia',s:'Boston',sim:1},
+  {id:'E1',g:'E',f:'14 Jun',t:'13:00',h:'Alemania',a:'Curazao',s:'Houston'},
+  {id:'E2',g:'E',f:'14 Jun',t:'19:00',h:'Costa de Marfil',a:'Ecuador',s:'Philadelphia'},
+  {id:'E3',g:'E',f:'20 Jun',t:'16:00',h:'Alemania',a:'Costa de Marfil',s:'Toronto'},
+  {id:'E4',g:'E',f:'20 Jun',t:'22:00',h:'Ecuador',a:'Curazao',s:'Kansas City'},
+  {id:'E5',g:'E',f:'25 Jun',t:'14:00',h:'Alemania',a:'Ecuador',s:'Seattle',sim:1},
+  {id:'E6',g:'E',f:'25 Jun',t:'14:00',h:'Costa de Marfil',a:'Curazao',s:'Monterrey',sim:1},
+  {id:'F1',g:'F',f:'14 Jun',t:'16:00',h:'Países Bajos',a:'Japón',s:'Dallas'},
+  {id:'F2',g:'F',f:'14 Jun',t:'22:00',h:'Suecia',a:'Túnez',s:'Monterrey'},
+  {id:'F3',g:'F',f:'20 Jun',t:'13:00',h:'Países Bajos',a:'Suecia',s:'Houston'},
+  {id:'F4',g:'F',f:'20 Jun',t:'00:00',h:'Túnez',a:'Japón',s:'Monterrey'},
+  {id:'F5',g:'F',f:'26 Jun',t:'16:00',h:'Países Bajos',a:'Túnez',s:'San Francisco',sim:1},
+  {id:'F6',g:'F',f:'26 Jun',t:'16:00',h:'Japón',a:'Suecia',s:'Guadalajara',sim:1},
+  {id:'G1',g:'G',f:'15 Jun',t:'15:00',h:'Bélgica',a:'Egipto',s:'Seattle'},
+  {id:'G2',g:'G',f:'15 Jun',t:'21:00',h:'Irán',a:'Nueva Zelanda',s:'Los Ángeles'},
+  {id:'G3',g:'G',f:'21 Jun',t:'15:00',h:'Bélgica',a:'Irán',s:'Los Ángeles'},
+  {id:'G4',g:'G',f:'21 Jun',t:'21:00',h:'Nueva Zelanda',a:'Egipto',s:'Vancouver'},
+  {id:'G5',g:'G',f:'26 Jun',t:'14:00',h:'Bélgica',a:'Nueva Zelanda',s:'Kansas City',sim:1},
+  {id:'G6',g:'G',f:'26 Jun',t:'14:00',h:'Egipto',a:'Irán',s:'Toronto',sim:1},
+  {id:'H1',g:'H',f:'15 Jun',t:'12:00',h:'España',a:'Cabo Verde',s:'Atlanta'},
+  {id:'H2',g:'H',f:'15 Jun',t:'18:00',h:'Arabia Saudita',a:'Uruguay',s:'Miami'},
+  {id:'H3',g:'H',f:'21 Jun',t:'12:00',h:'España',a:'Arabia Saudita',s:'Atlanta'},
+  {id:'H4',g:'H',f:'21 Jun',t:'18:00',h:'Uruguay',a:'Cabo Verde',s:'Miami'},
+  {id:'H5',g:'H',f:'26 Jun',t:'18:00',h:'España',a:'Uruguay',s:'Dallas',sim:1},
+  {id:'H6',g:'H',f:'26 Jun',t:'18:00',h:'Cabo Verde',a:'Arabia Saudita',s:'Nueva Jersey',sim:1},
+  {id:'I1',g:'I',f:'16 Jun',t:'15:00',h:'Francia',a:'Senegal',s:'Nueva Jersey'},
+  {id:'I2',g:'I',f:'16 Jun',t:'18:00',h:'Irak',a:'Noruega',s:'Boston'},
+  {id:'I3',g:'I',f:'22 Jun',t:'17:00',h:'Francia',a:'Irak',s:'Philadelphia'},
+  {id:'I4',g:'I',f:'22 Jun',t:'20:00',h:'Noruega',a:'Senegal',s:'Nueva Jersey'},
+  {id:'I5',g:'I',f:'27 Jun',t:'15:00',h:'Francia',a:'Noruega',s:'Los Ángeles',sim:1},
+  {id:'I6',g:'I',f:'27 Jun',t:'15:00',h:'Senegal',a:'Irak',s:'Houston',sim:1},
+  {id:'J1',g:'J',f:'16 Jun',t:'21:00',h:'Argentina',a:'Argelia',s:'Kansas City'},
+  {id:'J2',g:'J',f:'16 Jun',t:'00:00',h:'Austria',a:'Jordania',s:'San Francisco'},
+  {id:'J3',g:'J',f:'22 Jun',t:'13:00',h:'Argentina',a:'Austria',s:'Dallas'},
+  {id:'J4',g:'J',f:'22 Jun',t:'23:00',h:'Jordania',a:'Argelia',s:'San Francisco'},
+  {id:'J5',g:'J',f:'27 Jun',t:'19:00',h:'Argentina',a:'Jordania',s:'Nueva Jersey',sim:1},
+  {id:'J6',g:'J',f:'27 Jun',t:'19:00',h:'Argelia',a:'Austria',s:'Boston',sim:1},
+  {id:'K1',g:'K',f:'17 Jun',t:'13:00',h:'Portugal',a:'RD Congo',s:'Houston'},
+  {id:'K2',g:'K',f:'17 Jun',t:'22:00',h:'Uzbekistán',a:'Colombia',s:'Cd. de México'},
+  {id:'K3',g:'K',f:'23 Jun',t:'13:00',h:'Portugal',a:'Uzbekistán',s:'Houston'},
+  {id:'K4',g:'K',f:'23 Jun',t:'22:00',h:'Colombia',a:'RD Congo',s:'Guadalajara'},
+  {id:'K5',g:'K',f:'28 Jun',t:'19:00',h:'Portugal',a:'Colombia',s:'Miami',sim:1},
+  {id:'K6',g:'K',f:'28 Jun',t:'19:00',h:'RD Congo',a:'Uzbekistán',s:'Atlanta',sim:1},
+  {id:'L1',g:'L',f:'17 Jun',t:'16:00',h:'Inglaterra',a:'Croacia',s:'Dallas'},
+  {id:'L2',g:'L',f:'17 Jun',t:'19:00',h:'Ghana',a:'Panamá',s:'Toronto'},
+  {id:'L3',g:'L',f:'23 Jun',t:'16:00',h:'Inglaterra',a:'Ghana',s:'Boston'},
+  {id:'L4',g:'L',f:'23 Jun',t:'19:00',h:'Panamá',a:'Croacia',s:'Toronto'},
+  {id:'L5',g:'L',f:'28 Jun',t:'15:00',h:'Inglaterra',a:'Panamá',s:'Seattle',sim:1},
+  {id:'L6',g:'L',f:'28 Jun',t:'15:00',h:'Croacia',a:'Ghana',s:'Philadelphia',sim:1},
+];
+
+const KO=[
+  {id:'r32_1',r:'Dieciseisavos',f:'1 Jul',t:'13:00',h:'1°A',a:'3°BCDE',s:'Toronto'},
+  {id:'r32_2',r:'Dieciseisavos',f:'1 Jul',t:'17:00',h:'1°B',a:'3°AFGHJ',s:'Cd. de México'},
+  {id:'r32_3',r:'Dieciseisavos',f:'2 Jul',t:'13:00',h:'1°C',a:'3°GHIJ',s:'Dallas'},
+  {id:'r32_4',r:'Dieciseisavos',f:'2 Jul',t:'17:00',h:'1°D',a:'3°EFKL',s:'Miami'},
+  {id:'r32_5',r:'Dieciseisavos',f:'3 Jul',t:'13:00',h:'1°E',a:'3°ABCL',s:'Seattle'},
+  {id:'r32_6',r:'Dieciseisavos',f:'3 Jul',t:'17:00',h:'1°F',a:'3°JKLA',s:'Houston'},
+  {id:'r32_7',r:'Dieciseisavos',f:'4 Jul',t:'13:00',h:'1°G',a:'3°BFIJ',s:'Boston'},
+  {id:'r32_8',r:'Dieciseisavos',f:'4 Jul',t:'17:00',h:'1°H',a:'2°E',s:'Atlanta'},
+  {id:'r32_9',r:'Dieciseisavos',f:'5 Jul',t:'13:00',h:'1°I',a:'2°H',s:'Los Ángeles'},
+  {id:'r32_10',r:'Dieciseisavos',f:'5 Jul',t:'17:00',h:'1°J',a:'2°G',s:'Nueva Jersey'},
+  {id:'r32_11',r:'Dieciseisavos',f:'6 Jul',t:'13:00',h:'1°K',a:'2°F',s:'Kansas City'},
+  {id:'r32_12',r:'Dieciseisavos',f:'6 Jul',t:'17:00',h:'1°L',a:'2°I',s:'San Francisco'},
+  {id:'r32_13',r:'Dieciseisavos',f:'7 Jul',t:'13:00',h:'2°A',a:'2°D',s:'Vancouver'},
+  {id:'r32_14',r:'Dieciseisavos',f:'7 Jul',t:'17:00',h:'2°B',a:'2°C',s:'Philadelphia'},
+  {id:'r32_15',r:'Dieciseisavos',f:'8 Jul',t:'13:00',h:'2°J',a:'2°L',s:'Guadalajara'},
+  {id:'r32_16',r:'Dieciseisavos',f:'8 Jul',t:'17:00',h:'2°K',a:'2°B',s:'Monterrey'},
+  {id:'r16_1',r:'Octavos',f:'11 Jul',t:'13:00',h:'G.R32-1',a:'G.R32-2',s:'Dallas'},
+  {id:'r16_2',r:'Octavos',f:'11 Jul',t:'17:00',h:'G.R32-3',a:'G.R32-4',s:'Miami'},
+  {id:'r16_3',r:'Octavos',f:'12 Jul',t:'13:00',h:'G.R32-5',a:'G.R32-6',s:'Houston'},
+  {id:'r16_4',r:'Octavos',f:'12 Jul',t:'17:00',h:'G.R32-7',a:'G.R32-8',s:'Seattle'},
+  {id:'r16_5',r:'Octavos',f:'13 Jul',t:'13:00',h:'G.R32-9',a:'G.R32-10',s:'Los Ángeles'},
+  {id:'r16_6',r:'Octavos',f:'13 Jul',t:'17:00',h:'G.R32-11',a:'G.R32-12',s:'Boston'},
+  {id:'r16_7',r:'Octavos',f:'14 Jul',t:'13:00',h:'G.R32-13',a:'G.R32-14',s:'Nueva Jersey'},
+  {id:'r16_8',r:'Octavos',f:'14 Jul',t:'17:00',h:'G.R32-15',a:'G.R32-16',s:'Atlanta'},
+  {id:'qf1',r:'Cuartos',f:'17 Jul',t:'17:00',h:'G.R16-1',a:'G.R16-2',s:'Dallas'},
+  {id:'qf2',r:'Cuartos',f:'17 Jul',t:'21:00',h:'G.R16-3',a:'G.R16-4',s:'Seattle'},
+  {id:'qf3',r:'Cuartos',f:'18 Jul',t:'17:00',h:'G.R16-5',a:'G.R16-6',s:'Houston'},
+  {id:'qf4',r:'Cuartos',f:'18 Jul',t:'21:00',h:'G.R16-7',a:'G.R16-8',s:'Miami'},
+  {id:'sf1',r:'Semifinales',f:'14 Jul',t:'17:00',h:'G.QF-1',a:'G.QF-2',s:'Dallas'},
+  {id:'sf2',r:'Semifinales',f:'15 Jul',t:'17:00',h:'G.QF-3',a:'G.QF-4',s:'Atlanta'},
+  {id:'p3',r:'3er Puesto',f:'18 Jul',t:'17:00',h:'Perd. SF-1',a:'Perd. SF-2',s:'Miami'},
+  {id:'fin',r:'Final',f:'19 Jul',t:'16:00',h:'G. SF-1',a:'G. SF-2',s:'MetLife, NJ'},
+];
+
+const ALL=[...GM,...KO];
+let db={};
+let curTab='GRUPOS';
+let fDate='ALL';
+let fGroup='ALL';
+
+async function loadDB(){
+  try{
+    if(window.storage){const r=await window.storage.get('mw26_v4');if(r)db=JSON.parse(r.value);}
+    else{const r=localStorage.getItem('mw26_v4');if(r)db=JSON.parse(r);}
+  }catch(e){}
+}
+async function saveDB(){
+  try{
+    if(window.storage)await window.storage.set('mw26_v4',JSON.stringify(db));
+    else localStorage.setItem('mw26_v4',JSON.stringify(db));
+  }catch(e){}
+}
+
+function f(t){return FL[t]||''}
+function dayLabel(fecha){
+  const off=ORD[fecha]||0;
+  const d=new Date(BASE);d.setDate(d.getDate()+off);
+  const [num,mes]=fecha.split(' ');
+  return `${DIAS[d.getDay()]} ${num} ${MESES[mes]||mes}`;
+}
+
+function updStats(){
+  let j=0,g=0;
+  ALL.forEach(m=>{const s=db[m.id];if(s&&s.h!==''&&s.a!==''){const sh=parseInt(s.h),sa=parseInt(s.a);if(!isNaN(sh)&&!isNaN(sa)){j++;g+=sh+sa;}}});
+  document.getElementById('sJ').textContent=j;
+  document.getElementById('sG').textContent=g;
+  document.getElementById('sP').textContent=ALL.length-j;
+}
+
+function calcSt(g){
+  const st={};
+  GRPS[g].forEach(t=>st[t]={name:t,j:0,gf:0,gc:0,pts:0});
+  GM.filter(m=>m.g===g&&db[m.id]).forEach(m=>{
+    const s=db[m.id],sh=parseInt(s.h),sa=parseInt(s.a);
+    if(isNaN(sh)||isNaN(sa))return;
+    if(!st[m.h]||!st[m.a])return;
+    st[m.h].j++;st[m.a].j++;
+    st[m.h].gf+=sh;st[m.h].gc+=sa;
+    st[m.a].gf+=sa;st[m.a].gc+=sh;
+    if(sh>sa)st[m.h].pts+=3;
+    else if(sh===sa){st[m.h].pts++;st[m.a].pts++;}
+    else st[m.a].pts+=3;
+  });
+  return Object.values(st).sort((a,b)=>b.pts-a.pts||(b.gf-b.gc)-(a.gf-a.gc)||b.gf-a.gf);
+}
+
+function renderTabs(){
+  const tabs=[{id:'GRUPOS',l:'Fase de grupos'},{id:'TABLA',l:'Posiciones'},{id:'ELIM',l:'Eliminatoria'}];
+  document.getElementById('tabs').innerHTML=tabs.map(t=>`<button class="tab${curTab===t.id?' on':''}" onclick="sw('${t.id}')">${t.l}</button>`).join('');
+}
+function sw(id){curTab=id;fDate='ALL';fGroup='ALL';renderTabs();renderFilt();renderMain();}
+
+function renderFilt(){
+  const el=document.getElementById('filt');
+  if(curTab!=='GRUPOS'){el.innerHTML='';return;}
+  const dates=[...new Set(GM.map(m=>m.f))].sort((a,b)=>ORD[a]-ORD[b]);
+  const byMon={};
+  dates.forEach(d=>{const m=d.split(' ')[1];if(!byMon[m])byMon[m]=[];byMon[m].push(d);});
+  let dpills='<button class="pill'+(fDate==='ALL'?' on':'')+'" onclick="sd(\'ALL\')">Todos</button>';
+  Object.entries(byMon).forEach(([mon,ds])=>{
+    dpills+=`<span class="msep">${{Jun:'jun',Jul:'jul'}[mon]||mon}</span>`;
+    ds.forEach(d=>dpills+=`<button class="pill${fDate===d?' on':''}" onclick="sd('${d}')">${d.split(' ')[0]}</button>`);
+  });
+  const gpills='<button class="pill'+(fGroup==='ALL'?' gon':'')+'" onclick="sg(\'ALL\')">Todos</button>'+
+    'ABCDEFGHIJKL'.split('').map(g=>`<button class="pill${fGroup===g?' gon':''}" onclick="sg('${g}')">${g}</button>`).join('');
+  el.innerHTML=`<div class="filt"><div class="frow"><span class="flbl">Fecha</span><div class="pills">${dpills}</div></div><div class="frow"><span class="flbl">Grupo</span><div class="pills">${gpills}</div></div><div class="factions"><span class="sim-legend"><span class="sdot"></span>Simultáneo</span><button class="clr" onclick="cf()"><i class="ti ti-x" style="font-size:11px" aria-hidden="true"></i> Limpiar</button></div></div>`;
+}
+function sd(d){fDate=d;renderFilt();renderMain();}
+function sg(g){fGroup=g;renderFilt();renderMain();}
+function cf(){fDate='ALL';fGroup='ALL';renderFilt();renderMain();}
+
+function mcard(m,ko){
+  const s=db[m.id]||{};
+  const done=s.h!==undefined&&s.h!==''&&s.a!==undefined&&s.a!=='';
+  const gc=m.g?GC[m.g]:'#64748b';
+  const gbg=m.g?GB[m.g]:'rgba(100,116,139,0.12)';
+  const tag=m.g
+    ?`<span class="mc-gtag" style="color:${gc};background:${gbg};border:1px solid ${gc}33">Grupo ${m.g}</span>`
+    :`<span class="mc-gtag" style="color:var(--text-3);background:rgba(100,116,139,0.1);border:1px solid var(--border)">${m.r||''}</span>`;
+  return `<div class="mc${done?' done':''}">
+    <div class="mc-top">
+      <span class="mc-hora"><i class="ti ti-clock" style="font-size:10px" aria-hidden="true"></i>${m.t} BOT${m.sim?'&nbsp;<span class="sdot" title="Simultáneo"></span>':''}</span>
+      ${tag}
+    </div>
+    <div class="mc-body">
+      <div class="mc-team">
+        <span class="mc-flag">${ko?'':f(m.h)}</span>
+        <span class="mc-tname">${m.h}</span>
+      </div>
+      <div class="mc-score">
+        <input class="sinp" type="number" min="0" max="99" placeholder="-" value="${s.h!==undefined?s.h:''}" data-mid="${m.id}" data-side="h">
+        <span class="vs">:</span>
+        <input class="sinp" type="number" min="0" max="99" placeholder="-" value="${s.a!==undefined?s.a:''}" data-mid="${m.id}" data-side="a">
+      </div>
+      <div class="mc-team">
+        <span class="mc-flag">${ko?'':f(m.a)}</span>
+        <span class="mc-tname">${m.a}</span>
+      </div>
+    </div>
+    <div class="mc-bot">
+      <span class="mc-sede"><i class="ti ti-map-pin" style="font-size:10px" aria-hidden="true"></i>${m.s}</span>
+      <button class="savebtn${done?' ok':''}" data-mid="${m.id}">${done?'✓ Guardado':'Guardar'}</button>
+    </div>
+  </div>`;
+}
+
+function renderMain(){
+  const el=document.getElementById('main');
+  if(curTab==='TABLA'){
+    let h='<div class="tbl-grid">';
+    'ABCDEFGHIJKL'.split('').forEach(g=>{
+      const st=calcSt(g);
+      h+=`<div class="tbl-card"><div class="tbl-hdr" style="background:${GHDR[g]}"><span>Grupo ${g}</span></div><table class="tbl-t"><tr><th style="width:48%">Equipo</th><th>PJ</th><th>GF</th><th>GC</th><th>Pts</th></tr>`;
+      st.forEach((t,i)=>h+=`<tr class="${i===0?'rq1':i===1?'rq2':i===2?'rq3':''}"><td>${f(t.name)} ${t.name}${i<2?' ✓':''}</td><td>${t.j}</td><td>${t.gf}</td><td>${t.gc}</td><td><strong>${t.pts}</strong></td></tr>`);
+      h+='</table></div>';
+    });
+    el.innerHTML=h+'</div><p class="tbl-note">✓ Clasifican directamente a Dieciseisavos · Los 8 mejores terceros también avanzan</p>';
+    return;
+  }
+  if(curTab==='ELIM'){
+    const rnds=[...new Set(KO.map(m=>m.r))];
+    let h='';
+    rnds.forEach(r=>{
+      h+=`<div class="ko-rnd">${r}</div><div class="ko-matches">`;
+      KO.filter(m=>m.r===r).forEach(m=>h+=mcard(m,true));
+      h+='</div>';
+    });
+    el.innerHTML=h;bindEvts();return;
+  }
+  let ms=GM;
+  if(fGroup!=='ALL')ms=ms.filter(m=>m.g===fGroup);
+  if(fDate!=='ALL')ms=ms.filter(m=>m.f===fDate);
+  if(!ms.length){el.innerHTML='<div class="empty"><i class="ti ti-calendar-off" aria-hidden="true"></i>Sin partidos para este filtro</div>';return;}
+  const byD={};ms.forEach(m=>{if(!byD[m.f])byD[m.f]=[];byD[m.f].push(m);});
+  const sortedD=Object.keys(byD).sort((a,b)=>ORD[a]-ORD[b]);
+  let h=`<div class="res-info">${ms.length} partido${ms.length!==1?'s':''} encontrado${ms.length!==1?'s':''}</div>`;
+  sortedD.forEach(fecha=>{
+    const cnt=byD[fecha].length;
+    h+=`<div class="day-hdr"><span class="day-hdr-text">${dayLabel(fecha)}</span><span class="day-cnt">${cnt} partido${cnt!==1?'s':''}</span><div class="day-hdr-line"></div></div>`;
+    h+=`<div class="matches">`;
+    byD[fecha].sort((a,b)=>a.t.localeCompare(b.t)).forEach(m=>h+=mcard(m,false));
+    h+='</div>';
+  });
+  el.innerHTML=h;bindEvts();
+}
+
+function bindEvts(){
+  document.querySelectorAll('.savebtn').forEach(btn=>{
+    btn.onclick=async function(){
+      const mid=this.dataset.mid;
+      const hi=document.querySelector(`input[data-mid="${mid}"][data-side="h"]`);
+      const ai=document.querySelector(`input[data-mid="${mid}"][data-side="a"]`);
+      if(!hi||!ai)return;
+      if(hi.value===''||ai.value==='')delete db[mid];
+      else db[mid]={h:hi.value,a:ai.value};
+      await saveDB();updStats();
+      this.className='savebtn ok';this.textContent='✓ Guardado';
+      setTimeout(()=>renderMain(),500);
+    };
+  });
+}
+
+async function init(){await loadDB();renderTabs();renderFilt();renderMain();updStats();}
+init();
+</script>
+
+</body>
+</html>
