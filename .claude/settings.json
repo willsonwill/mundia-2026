@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(mkdir -p \"/home/will/.claude/projects/-home-will-SGC-SGC-ESAM-mundia-2026/memory\")",
+      "Bash(curl -s https://xgpyuqseueknpxfsasdc.supabase.co/rest/v1/match_results?select=count -H 'apikey: sb_publishable_7PNYRcEkiwKkArxS-BgD9Q_qrURYjwz' -H 'Authorization: Bearer sb_publishable_7PNYRcEkiwKkArxS-BgD9Q_qrURYjwz' -H 'Prefer: count=exact' -I)",
+      "Bash(curl -s \"https://worldcup26.ir/get/games\" -H \"Accept: application/json\" -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -sv \"https://worldcup26.ir/get/teams\")",
+      "Bash(curl -s \"https://worldcup26.ir/get/games\" -H \"Accept: application/json\" -H \"Origin: http://localhost:5500\" -I)",
+      "Bash(curl -s \"https://worldcup26.ir/get/games\" -H \"Accept: application/json\")",
+      "Bash(curl -s \"https://worldcup26.ir/get/games\")",
+      "Bash(python3 -c ' *)"
+    ],
+    "additionalDirectories": [
+      "/home/will/.claude/projects/-home-will-SGC-SGC-ESAM-mundia-2026"
+    ]
+  }
+}
